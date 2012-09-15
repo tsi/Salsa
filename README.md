@@ -7,7 +7,8 @@ Salsa is perfect for both simple and complex layouts.
 if you want just a simple grid, if you have a grid with an off-grid element, or
 if you just hate grids - **Salsa is just what you need**.
 
-Salsa was originaly created as the layout system that powers [Sasson](http://drupal.org/project/sasson) v3.x so you could also call it Sasson's Awesome Layout System... Awesome!
+Salsa was originaly created as the layout system that powers [Sasson](http://drupal.org/project/sasson) v3.x
+so you could also call it _Sasson's Awesome Layout System... Awesome!_
 
 
 Why?
