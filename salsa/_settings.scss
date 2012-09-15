@@ -1,0 +1,29 @@
+// ---------------------------------------------------------------------------
+// Salsa Settings
+
+// Set a width for the container element.
+// Defaults to fixed 'px' but you may use whatever unit fits your needs e.g. %.
+$container-width: 960px !default;
+
+// Set the number of columns in the grid.
+$columns: 16 !default;
+
+// Set gutters width, gutters will be contained inside grid elements as padding. 
+// Defaults to 'px' but you may use whatever unit fits your needs e.g. %.
+$gutter-width: 20px !default;
+
+// Flow directionality, set $flow to 'right' for an RTL grid.
+// $opos is automatically set to the opposite of $flow.
+$flow: left !default;
+$opos: salsa-opos($flow);
+
+// Box sizing model, we use border-box to minimize browser rounding errors by
+// containing gutters inside grid elements as padding.
+// border-box is supported on IE8+, to support IE7 and below you'll have to
+// include a polyfill ( https://github.com/Schepp/box-sizing-polyfill ) and set
+// the the path to it.
+$box-sizing: border-box;
+$box-sizing-polyfill-path: "" !default;
+
+// You don't want to support IE7, do you?
+$ie7-support: false !default;

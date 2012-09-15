@@ -1,0 +1,23 @@
+// ---------------------------------------------------------------------------
+// Grid Background
+//
+// A wrapper for the compass "column-grid-background" mixin
+// This is the only place where Salsa depends on compass
+
+@import "compass/layout/grid-background";
+@import "compass/css3/transition";
+
+@mixin salsa-background {
+
+  $space : $gutter-width / 2;
+  $column: $container-width / $columns - $gutter-width;
+
+  @include column-grid-background($columns, $column, $gutter-width, $space, #ccea7e, #e6ffa8, true);
+  background-size: 100% 0;
+  background-repeat: repeat-x;
+  @include transition(background-size 0.5s);
+
+  .grid-visible & {
+    background-size: 100% 100%;
+  }
+}

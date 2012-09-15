@@ -1,0 +1,138 @@
+// ---------------------------------------------------------------------------
+// Salsa Layout - This is where the real magic happens
+
+// ---------------------------------------------------------------------------
+// Micro clearfix hack
+// http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clear {
+  &:before, &:after {
+    content: "\0020";
+    display: table;
+  }
+  &:after { clear: both; }
+  @if $ie7-support {
+    & { zoom: 1; }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Containers
+
+// Apply container to your outer-most container element.
+@mixin container {
+  width: $container-width;
+  margin: {
+    left: auto;
+    right: auto;
+  }
+  @include clear;
+}
+
+// Nested Container
+// Apply nested-container to any grid element that contains other grid elements
+// as a nested grid container.
+@mixin nested-container {
+  padding: {
+    left: 0;
+    right: 0;
+  }
+  @include clear;
+}
+
+// ---------------------------------------------------------------------------
+// Grid Rows
+// Apply row to any grid element that should force a new grid row
+@mixin row {
+  clear: $flow;
+}
+
+// Apply unrow to cancel the previous mixin's effect, e.g. when changing layouts
+// using media queries.
+@mixin unrow {
+  clear: none;
+}
+
+// ---------------------------------------------------------------------------
+// Grid Elements
+
+// Apply grid-cell to only set the grid element box-model (padding) but not
+// positioning it, the element will simply flow in its natural position in the
+// document. see the next mixin for positioned grid-elements.
+@mixin grid-cell {
+  padding: {
+    left: $gutter-width / 2;
+    right: $gutter-width / 2;
+  }
+  @if $box-sizing == border-box {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  @if $box-sizing-polyfill-path != "" and $ie7-support {
+    behavior: url($box-sizing-polyfill-path);
+  }
+}
+
+// grid() is the heart of the layout system, it allows you to define 
+// grid-element's width and position.
+// 
+// $width: 
+//    - Can be unitless and represent the number of columns to span.
+//    - May have any kind of width unit (e.g. px, em, % etc.) and provide 
+//      complete control over the element's with, even if not complying with
+//      the grid layout or if using a grid is not your cup of tea. 
+// $position:
+//    - Can be unitless and represent the column number the element starts on
+//    - May have any kind of width unit (e.g. px, em, % etc.) and provide 
+//      complete control over the element's position, similar to absolute
+//      positioning only that elements are NOT removed from the normal flow.
+// $parent-columns: 
+//    - when nesting grids, this should contain the number of columns spanned by
+//      the nested-grid container.
+// 
+// Examples:
+//    - Simple grid element spanning 4 columns starting from the 12th column
+//        
+//        @include grid(4, 12);
+//        
+//    - a 40% wide element pushed 60% off the grid's first column
+// 
+//        @include grid(40%, 60%);
+//        
+//    - a 2 column grid element nested inside a 6 columns nested-container
+//    
+//        @include grid(2, 1, 6);
+//
+@mixin grid($width, $position: false, $parent-columns: false) {
+  @include grid-cell;
+  float: $flow;
+  @if $position == 0 {
+    margin: {
+      #{$opos}: -100%;
+      #{$flow}: 0;
+    }
+  }
+  @else if $position {
+    margin: {
+      #{$opos}: -100%;
+      @if $parent-columns {
+        #{$flow}: $position * 100% / $parent-columns;
+      }
+      @if unitless($position) {
+        #{$flow}: $position * 100% / $columns;
+      }
+      @else {
+        #{$flow}: $position;        
+      }
+    }
+  }
+  @if $parent-columns {
+    width: 100% / $parent-columns * $width;
+  }
+  @else if unitless($width) {
+    width: 100% / $columns * $width;
+  }
+  @else {
+    width: $width;
+  }
+}

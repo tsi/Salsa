@@ -1,0 +1,11 @@
+// ---------------------------------------------------------------------------
+// Functions
+
+@function salsa-opos($flow) {
+  @if $flow == right {
+    @return left;
+  }
+  @else {
+    @return right;
+  }
+}
