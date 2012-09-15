@@ -1,4 +1,4 @@
-Salsa - Syntactically Awesome Layout System... Awesome!
+Salsa
 ===
 
 **Salsa** is a simple yet very smart and flexible fluid layout system.  
