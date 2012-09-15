@@ -58,10 +58,12 @@
 // Apply grid-cell to only set the grid element box-model (padding) but not
 // positioning it, the element will simply flow in its natural position in the
 // document. see the next mixin for positioned grid-elements.
-@mixin grid-cell {
-  padding: {
-    left: $gutter-width / 2;
-    right: $gutter-width / 2;
+@mixin grid-cell($container: false) {
+  @if $container == false {
+    padding: {
+      left: $gutter-width / 2;
+      right: $gutter-width / 2;
+    }
   }
   @if $box-sizing == border-box {
     -moz-box-sizing: border-box;
@@ -73,6 +75,8 @@
   }
 }
 
+// grid(<$width> [<container>], [<$position>])
+// 
 // grid() is the heart of the layout system, it allows you to define 
 // grid-element's width and position.
 // 
@@ -86,10 +90,7 @@
 //    - May have any kind of width unit (e.g. px, em, % etc.) and provide 
 //      complete control over the element's position, similar to absolute
 //      positioning only that elements are NOT removed from the normal flow.
-// $parent-columns: 
-//    - when nesting grids, this should contain the number of columns spanned by
-//      the nested-grid container.
-// 
+//    - May be 'row' to force a new grid row
 // Examples:
 //    - Simple grid element spanning 4 columns starting from the 12th column
 //        
@@ -99,40 +100,53 @@
 // 
 //        @include grid(40%, 60%);
 //        
-//    - a 2 column grid element nested inside a 6 columns nested-container
+// Nested grids -
+//    - when nesting grids, you may provide $width as columns fraction e.g 3/6.
+//    - when nesting grids, you may provide $position as columns fraction e.g 3/6.
+//    - note: 6/6 = 1 column, not 6 columns out of 6, use 100% instead.
+//    Example: 2 column grid element nested inside a 6 columns nested-container,
+//             starting from the 4th column.
 //    
-//        @include grid(2, 1, 6);
+//             @include grid(2/6, 4/6);
 //
-@mixin grid($width, $position: false, $parent-columns: false) {
-  @include grid-cell;
+@mixin grid($width, $position: false) {
+  @if length($width) > 1 and nth($width, 2) == container{
+    @include grid-cell(container);
+  }
+  @else {
+    @include grid-cell;
+  }
+  $width: nth($width, 1);
+
   float: $flow;
-  @if $position == 0 {
-    margin: {
-      #{$opos}: -100%;
-      #{$flow}: 0;
-    }
+
+  // Width (fraction/columns/units)
+  @if round($width) != $width { // fraction
+    width: 100% * $width;
+  }
+  @else if unitless($width) { // columns
+    width: 100% / $columns * $width;
+  }
+  @else { // unit (px/%/em etc.)
+    width: $width;
+  }
+
+  // Position (row/fraction/columns/units)
+  @if $position == row { // row
+    @include row;
   }
   @else if $position {
     margin: {
       #{$opos}: -100%;
-      @if $parent-columns {
-        #{$flow}: $position * 100% / $parent-columns;
+      @if round($position) != $position { // fraction
+        #{$flow}: $position * 100%;
       }
-      @if unitless($position) {
+      @else if unitless($position) { // columns
         #{$flow}: $position * 100% / $columns;
       }
-      @else {
+      @else { // unit (px/%/em etc.)
         #{$flow}: $position;        
       }
     }
-  }
-  @if $parent-columns {
-    width: 100% / $parent-columns * $width;
-  }
-  @else if unitless($width) {
-    width: 100% / $columns * $width;
-  }
-  @else {
-    width: $width;
   }
 }

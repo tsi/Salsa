@@ -1,6 +1,8 @@
 // ---------------------------------------------------------------------------
 // Functions
 
+// Returns the oposite direction of $flow
+// $flow: may be 'left' or 'right'.
 @function salsa-opos($flow) {
   @if $flow == right {
     @return left;
