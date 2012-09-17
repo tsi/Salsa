@@ -31,7 +31,7 @@ Put the ```/salsa``` folder in your stylesheets directory and import it:
 
 Documentation
 ===
-Not much yet, but the code is very well commented, quicly going through the
+Not much yet, but the code is very well commented, quickly going through the
 comments will get you started in no-time.  
 Knowing the ```settings``` and how to use the ```grid()``` and the ```container``` 
 mixins will be enough for most cases, read about those first.
@@ -43,7 +43,7 @@ Inspiration
 ===
 
 Mostly [Susy](http://susy.oddbird.net/) and [Zen](http://zengrids.com/) grids.  
-I belive Salsa manage to combine the best of both in a much simpler system.
+I believe Salsa manage to combine the best of both in a much simpler system.
 
 
 License
