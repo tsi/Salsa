@@ -16,6 +16,19 @@
 }
 
 // ---------------------------------------------------------------------------
+// Box sizing
+
+// Apply this where you want your elements to contain their padding and borders,
+// this allows salsa to minimize browsers rounding errors and to use pixels or 
+// even em gutters and not be bound to %.
+// Paul Irish wrote about it here - http://paulirish.com/2012/box-sizing-border-box-ftw/
+@mixin box-sizing($model: border-box) {
+  -moz-box-sizing: $model;
+  -webkit-box-sizing: $model;
+  box-sizing: $model;
+}
+
+// ---------------------------------------------------------------------------
 // Containers
 
 // Apply container to your outer-most container element.
@@ -59,16 +72,12 @@
 // positioning it, the element will simply flow in its natural position in the
 // document. see the next mixin for positioned grid-elements.
 @mixin grid-cell($container: false) {
+  @include box-sizing;
   @if $container == false {
     padding: {
       left: $gutter-width / 2;
       right: $gutter-width / 2;
     }
-  }
-  @if $box-sizing == border-box {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
   }
   @if $box-sizing-polyfill-path != "" and $ie7-support {
     behavior: url($box-sizing-polyfill-path);
@@ -91,6 +100,7 @@
 //      complete control over the element's position, similar to absolute
 //      positioning only that elements are NOT removed from the normal flow.
 //    - May be 'row' to force a new grid row
+//    
 // Examples:
 //    - Simple grid element spanning 4 columns starting from the 12th column
 //        
@@ -104,6 +114,7 @@
 //    - when nesting grids, you may provide $width as columns fraction e.g 3/6.
 //    - when nesting grids, you may provide $position as columns fraction e.g 3/6.
 //    - note: 6/6 = 1 column, not 6 columns out of 6, use 100% instead.
+//    
 //    Example: 2 column grid element nested inside a 6 columns nested-container,
 //             starting from the 4th column.
 //    

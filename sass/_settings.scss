@@ -6,6 +6,8 @@
 $container-width: 960px !default;
 
 // Set the number of columns in the grid.
+// Tip - To minimize browser rounding issues, try to use a number which 100 (%)
+// is easily divisible by, e.g. use 24 instead of 12.
 $columns: 16 !default;
 
 // Set gutters width, gutters will be contained inside grid elements as padding. 
@@ -17,12 +19,13 @@ $gutter-width: 20px !default;
 $flow: left !default;
 $opos: salsa-opos($flow);
 
-// Box sizing model, we use border-box to minimize browser rounding errors by
+// Box sizing model - we use border-box to minimize browser rounding errors by
 // containing gutters inside grid elements as padding.
+// This also allows us to use pixels, em or every other unit as gutters width
+// and not be bound to %
 // border-box is supported on IE8+, to support IE7 and below you'll have to
 // include a polyfill ( https://github.com/Schepp/box-sizing-polyfill ) and set
 // the the path to it.
-$box-sizing: border-box;
 $box-sizing-polyfill-path: "" !default;
 
 // You don't want to support IE7, do you?
