@@ -111,8 +111,10 @@
 //        @include grid(40%, 60%);
 //        
 // Nested grids -
-//    - when nesting grids, you may provide $width as columns fraction e.g 3/6.
-//    - when nesting grids, you may provide $position as columns fraction e.g 3/6.
+//    - You may provide $width as a simple fraction, so if you want an element
+//      to span 3 columns inside a 6 columns (nested) grid container, you'll
+//      probably use 3/6 as $width.
+//    - $position too.
 //    - note: 6/6 = 1 column, not 6 columns out of 6, use 100% instead.
 //    
 //    Example: 2 column grid element nested inside a 6 columns nested-container,
