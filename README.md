@@ -31,21 +31,31 @@ Put the ```/salsa``` folder in your stylesheets directory and import it:
 
 Documentation
 ===
-Not much yet, but the code is very well commented, quickly going through the
-comments will get you started in no-time.  
-Knowing the ```settings``` and how to use the ```grid()``` and the ```container``` 
-mixins will be enough for most cases, read about those first.
+Not much yet, but the code is very well commented, quickly going through the comments 
+will get you started in no-time.  
+Knowing the [settings](https://github.com/tsi/Salsa/blob/master/sass/_settings.scss) 
+and how to use the [grid()](https://github.com/tsi/Salsa/blob/master/sass/_layout.scss#L87-124) 
+and the [container](https://github.com/tsi/Salsa/blob/master/sass/_layout.scss#L31-34) mixins
+will be enough for most cases, read about those first.
 
-Documentation and examples are coming, stay tuned.
+Documentation and more examples are coming, stay tuned.
 
 
-Inspiration
+Browser support
+===
+Salsa will work fine on IE8 and better.  
+If you want to support IE7 (you don't) you'll have to add a [box-sizing polyfill](https://github.com/Schepp/box-sizing-polyfill),
+and [tell Salsa where it is](https://github.com/tsi/Salsa/blob/master/sass/_settings.scss#L22-28).
+
+
+Credits
 ===
 
-Mostly [Susy](http://susy.oddbird.net/) and [Zen](http://zengrids.com/) grids.  
-I believe Salsa manage to combine the best of both in a much simpler system.
+Credit for the inspiration goes mostly to [Susy](http://susy.oddbird.net/) and [Zen grids](http://zengrids.com/).  
+I believe Salsa manage to combine the best of both in a much simpler system.  
+Salsa was created to power [Sasson's](http://drupal.org/project/sasson) layout system by Tsachi Shlidor (@shlidor).
 
 
 License
 ===
-GPL v2
+Salsa is open-source, licensed under the GNU General Public License.
