@@ -25,7 +25,7 @@ $opos: salsa-opos($flow);
 // and not be bound to %
 // border-box is supported on IE8+, to support IE7 and below you'll have to
 // include a polyfill ( https://github.com/Schepp/box-sizing-polyfill ) and set
-// the the path to it.
+// the path to it.
 $box-sizing-polyfill-path: "" !default;
 
 // You don't want to support IE7, do you?
