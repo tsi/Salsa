@@ -54,7 +54,7 @@
 
 // ---------------------------------------------------------------------------
 // Grid Rows
-// Apply row to any grid element that should force a new grid row
+// Apply row to any grid element that should force a new grid row.
 @mixin row {
   clear: $flow;
 }
@@ -86,7 +86,7 @@
 
 // grid(<$width> [<container>], [<$position>])
 // 
-// grid() is the heart of the layout system, it allows you to define 
+// grid() is the heart of the layout system, it allows you to define the
 // grid-element's width and position.
 // 
 // $width: 
@@ -95,11 +95,12 @@
 //      complete control over the element's with, even if not complying with
 //      the grid layout or if using a grid is not your cup of tea. 
 // $position:
-//    - Can be unitless and represent the column number the element starts on
+//    - Can be unitless and represent the column number the element starts on.
 //    - May have any kind of width unit (e.g. px, em, % etc.) and provide 
 //      complete control over the element's position, similar to absolute
 //      positioning only that elements are NOT removed from the normal flow.
-//    - May be 'row' to force a new grid row
+//    - May be 'omega' for the last item in a row, will float the other way.
+//    - May be 'row' to force a new grid row.
 //    
 // Examples:
 //    - Simple grid element spanning 4 columns starting from the 12th column
@@ -131,8 +132,6 @@
   }
   $width: nth($width, 1);
 
-  float: $flow;
-
   // Width (fraction/columns/units)
   @if round($width) != $width { // fraction
     width: 100% * $width;
@@ -144,8 +143,14 @@
     width: $width;
   }
 
-  // Position (row/fraction/columns/units)
-  @if $position == row { // row
+  // Position (omega/row/fraction/columns/units)
+  @if $position != omega {
+    float: $flow; // normal float
+  }
+  @else if $position == omega { // omega
+    float: $opos;
+  }
+  @else if $position == row { // row
     @include row;
   }
   @else if $position {
