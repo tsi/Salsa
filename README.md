@@ -24,9 +24,24 @@ Requirements:
 - Sass - http://sass-lang.com/
 - Compass (optional, required only for the grid background) - http://compass-style.org/
 
-Put the ```/salsa``` folder in your stylesheets directory and import it:
+Install the gem and create a new project:
+<pre>
+sudo gem install salsa
+compass create PROJECT -r salsa --using salsa
+</pre>
 
-    @import "salsa/salsa";
+Add to an existing project:
+<pre>
+sudo gem install salsa
+# edit the project configuration file and add:
+require 'salsa'
+# From your project directory
+compass install salsa
+# Import it in your style sheet
+@import "salsa"
+</pre>
+    
+OR you can just take the ```/sass``` folder from here, put it in your project and ````@import "sass/salsa"````.
 
 
 Documentation
