@@ -48,9 +48,9 @@ Documentation
 ===
 Not much yet, but the code is very well commented, quickly going through the comments 
 will get you started in no-time.  
-Knowing the [settings](https://github.com/tsi/Salsa/blob/master/sass/_settings.scss) 
-and how to use the [grid()](https://github.com/tsi/Salsa/blob/master/sass/_layout.scss#L87-124) 
-and the [container](https://github.com/tsi/Salsa/blob/master/sass/_layout.scss#L31-34) mixins
+Knowing the [settings](https://github.com/tsi/Salsa/blob/master/sass/salsa/_settings.scss) 
+and how to use the [span()](https://github.com/tsi/Salsa/blob/master/sass/salsa/_system.scss#L98-139) 
+and the [container](https://github.com/tsi/Salsa/blob/master/sass/salsa/_system.scss#L31-34) mixins
 will be enough for most cases, read about those first.
 
 Documentation and more examples are coming, stay tuned.
@@ -60,7 +60,7 @@ Browser support
 ===
 Salsa will work fine on IE8 and better.  
 If you want to support IE7 (you don't) you'll have to add a [box-sizing polyfill](https://github.com/Schepp/box-sizing-polyfill),
-and [tell Salsa where it is](https://github.com/tsi/Salsa/blob/master/sass/_settings.scss#L22-28).
+and [tell Salsa where it is](https://github.com/tsi/Salsa/blob/master/sass/salsa/_settings.scss#L22-28).
 
 
 Credits
