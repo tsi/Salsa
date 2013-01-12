@@ -42,8 +42,8 @@
 }
 
 // Nested Container
-// Apply nested-container to any grid element that contains other grid elements
-// as a nested grid container.
+// Apply nested-container to any layout element that contains other layout
+// elements as a nested layout container.
 @mixin nested-container {
   padding: {
     left: 0;
@@ -53,8 +53,8 @@
 }
 
 // ---------------------------------------------------------------------------
-// Grid Rows
-// Apply row to any grid element that should force a new grid row.
+// Layout Rows
+// Apply row to any layout element that should force a new layout row.
 @mixin row {
   clear: $flow;
 }
@@ -66,12 +66,12 @@
 }
 
 // ---------------------------------------------------------------------------
-// Grid Elements
+// Layout Elements
 
-// Apply grid-cell to only set the grid element box-model (padding) but not
+// Apply this mixin to only set the layout element box-model (padding) but not
 // positioning it, the element will simply flow in its natural position in the
-// document. see the next mixin for positioned grid-elements.
-@mixin grid-cell($container: false) {
+// document. see the next mixin for positioned layout-elements.
+@mixin cell($container: false) {
   @include box-sizing;
   @if $container == false {
     padding: {
@@ -79,37 +79,51 @@
       right: $gutter-width / 2;
     }
   }
+  @else if $container == left {
+    padding-left: $gutter-width / 2;
+  }
+  @else if $container == right {
+    padding-right: $gutter-width / 2;
+  }
   @if $box-sizing-polyfill-path != "" and $ie7-support {
     behavior: url($box-sizing-polyfill-path);
   }
 }
 
-// grid(<$width> [<container>], [<$position>])
+// Backwards compatibility grid-cell() => cell()
+@mixin grid-cell($container: false) {
+  @include cell($container);
+}
+
+// span(<$width> [<$gutters>], [<$position>])
 // 
-// grid() is the heart of the layout system, it allows you to define the
-// grid-element's width and position.
+// span() is the heart of the layout system, it allows you to define the
+// layout-element's width and position.
 // 
 // $width: 
 //    - Can be unitless and represent the number of columns to span.
 //    - May have any kind of width unit (e.g. px, em, % etc.) and provide 
 //      complete control over the element's with, even if not complying with
 //      the grid layout or if using a grid is not your cup of tea. 
+//    - May be followed by a space and none/left/right to remove gutters, 'none'
+//      for no gutters (e.g. for nested containers), 'left/right' to leave a 
+//      gutter on one side only.
 // $position:
 //    - Can be unitless and represent the column number the element starts on.
 //    - May have any kind of width unit (e.g. px, em, % etc.) and provide 
 //      complete control over the element's position, similar to absolute
 //      positioning only that elements are NOT removed from the normal flow.
 //    - May be 'omega' for the last item in a row, will float the other way.
-//    - May be 'row' to force a new grid row.
+//    - May be 'row' to force a new layout row.
 //    
 // Examples:
-//    - Simple grid element spanning 4 columns starting from the 12th column
+//    - Simple layout element spanning 4 columns starting from the 12th column
 //        
-//        @include grid(4, 12);
+//        @include span(4, 12);
 //        
-//    - a 40% wide element pushed 60% off the grid's first column
+//    - a 40% wide element pushed 60% off the layout's first column
 // 
-//        @include grid(40%, 60%);
+//        @include span(40%, 60%);
 //        
 // Nested grids -
 //    - You may provide $width as a simple fraction, so if you want an element
@@ -118,28 +132,32 @@
 //    - $position too.
 //    - note: 6/6 = 1 column, not 6 columns out of 6, use 100% instead.
 //    
-//    Example: 2 column grid element nested inside a 6 columns nested-container,
+//    Example: 2 column element nested inside a 6 columns nested-container,
 //             starting from the 4th column.
 //    
-//             @include grid(2/6, 4/6);
+//             @include span(2/6, 4/6);
 //
-@mixin grid($width, $position: false) {
-  @if length($width) > 1 and nth($width, 2) == container{
-    @include grid-cell(container);
+@mixin span($width, $position: false) {
+
+  @if length($width) > 1 {
+    @include cell(nth($width, 2));
+    $width: nth($width, 1);
   }
   @else {
-    @include grid-cell;
+    @include cell;
   }
-  $width: nth($width, 1);
 
   // Width (fraction/columns/units)
-  @if round($width) != $width { // fraction
+  @if unitless($width) == false { // has unit, arbitrary width
+    width: $width;
+  }
+  @else if round($width) != $width { // fraction
     width: 100% * $width;
   }
   @else if unitless($width) { // columns
     width: 100% / $columns * $width;
   }
-  @else { // unit (px/%/em etc.)
+  @else { // fallback
     width: $width;
   }
 
@@ -147,7 +165,8 @@
   @if $position != omega {
     float: $flow; // normal float
   }
-  @else if $position == omega { // omega
+  
+  @if $position == omega { // omega
     float: $opos;
   }
   @else if $position == row { // row
@@ -156,15 +175,23 @@
   @else if $position {
     margin: {
       #{$opos}: -100%;
-      @if round($position) != $position { // fraction
+      @if unitless($width) == false { // has unit, arbitrary width
+        #{$flow}: $position;
+      }
+      @else if round($position) != $position { // fraction
         #{$flow}: $position * 100%;
       }
       @else if unitless($position) { // columns
         #{$flow}: $position * 100% / $columns;
       }
-      @else { // unit (px/%/em etc.)
-        #{$flow}: $position;        
+      @else { // fallback
+        #{$flow}: $position;
       }
     }
   }
+}
+
+// Backwards compatibility grid() => span()
+@mixin grid($width, $position: false) {
+  @include span($width, $position);
 }

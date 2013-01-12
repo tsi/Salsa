@@ -21,7 +21,7 @@
   background-repeat: repeat-x;
   @include transition(background-size 0.5s);
 
-  .grid-background & {
+  .grid-hidden & {
     background-size: 100% 0;
   }
   .grid-visible & {

@@ -1,0 +1,39 @@
+
+// ---------------------------------------------------------------------------
+// Salsa Settings.
+// @see sass/salsa/_settings.scss
+
+$container-width: 960px;
+$columns: 16;
+$gutter-width: 20px;
+$flow: left;
+
+
+// ---------------------------------------------------------------------------
+// OldIEs support
+
+// $box-sizing-polyfill-path: "";
+// $ie7-support: true;
+
+
+// ---------------------------------------------------------------------------
+// Imports
+
+@import "salsa";
+
+
+// ---------------------------------------------------------------------------
+// Layout
+
+.container {
+  @include container;
+  @include salsa-background;
+}
+
+.sidebar {
+  @include grid(4);
+}
+
+.content {
+  @include grid(12);
+}
